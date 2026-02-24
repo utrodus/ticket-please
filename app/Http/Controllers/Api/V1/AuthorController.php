@@ -7,7 +7,7 @@ use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends ApiController
+class AuthorController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -31,12 +31,12 @@ class UserController extends ApiController
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(User $author)
     {
         if ($this->include('tickets')) {
-            return new UserResource($user->load('tickets'));
+            return new UserResource($author->load('tickets'));
         }
-        return new UserResource($user);
+        return new UserResource($author);
     }
 
     /**
