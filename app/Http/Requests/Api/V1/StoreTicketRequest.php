@@ -11,7 +11,7 @@ class StoreTicketRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,24 @@ class StoreTicketRequest extends FormRequest
      */
     public function rules(): array
     {
+        $rules =  [
+            'data.attributes.title' => 'required|string',
+            'data.attributes.description' => 'required|string',
+            'data.attributes.status' => 'required|string|in:A,C,H,X',
+        ];
+
+        if ($this->routeIs('ticket.store')) {
+            $rules['data.relationships.author.data.id'] = 'required|integer|exists:users,id';
+        }
+
+        return $rules;
+    }
+
+    public function messages()
+    {
         return [
-            //
+            'data.attributes.status' => 'The data.attributes.status field must be one of the following values: A (Active), C (Closed), H (On Hold), X (Cancelled).',
+            'data.relationships.author.data.id.exists' => 'The specified author does not exist. Please provide a valid user ID.',
         ];
     }
 }
