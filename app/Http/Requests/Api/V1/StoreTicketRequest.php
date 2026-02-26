@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests\Api\V1;
 
-use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTicketRequest extends FormRequest
+class StoreTicketRequest extends BaseTicketRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,13 +31,5 @@ class StoreTicketRequest extends FormRequest
         }
 
         return $rules;
-    }
-
-    public function messages()
-    {
-        return [
-            'data.attributes.status' => 'The data.attributes.status field must be one of the following values: A (Active), C (Closed), H (On Hold), X (Cancelled).',
-            'data.relationships.author.data.id.exists' => 'The specified author does not exist. Please provide a valid user ID.',
-        ];
     }
 }
